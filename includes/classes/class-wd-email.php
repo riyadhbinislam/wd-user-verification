@@ -210,6 +210,8 @@ class WD_Email{
 
         return $parameters;
     }
+
 }
 
 $wd_email = new WD_Email();
+

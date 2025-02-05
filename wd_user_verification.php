@@ -85,3 +85,4 @@ function wd_user_verification_deactivate() {
 // Deactivation hook
 register_deactivation_hook(__FILE__, 'wd_user_verification_deactivate');
 
+//user-registration.local/wp-login.php?action=register

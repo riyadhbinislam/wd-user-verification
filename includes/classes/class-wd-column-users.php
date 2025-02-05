@@ -21,18 +21,8 @@ class WD_Users_Columns
         $email_verification_enable = isset($user_verification_settings['email_verification']['enable']) ? $user_verification_settings['email_verification']['enable'] : 'yes';
 
 
-        // $new_columns 	= array();
-        // $count 			= 0;
-
-        // foreach( $columns as $column_key => $column_title ){
-        //     $count++;
-
-        // 	if( $count == 3 ) $new_columns[ 'verification_status' ] = __('Verification Status', 'user-verification');
-        // 	else $new_columns[ $column_key ] = $column_title;
-        // }
-
         if ($email_verification_enable == 'yes') {
-            $columns['verification_status'] = __('Email Verification', 'user-verification');
+            $columns['verification_status'] = __('Email Verification', 'wd_verification');
         }
 
         return $columns;
@@ -47,28 +37,24 @@ class WD_Users_Columns
             ob_start();
 
             $user_activation_status = get_user_meta($user_id, 'user_activation_status', true);
-           // $user_activation_status = empty($user_activation_status) ? 0 : $user_activation_status;
-            $uv_status                 = $user_activation_status == 1 ? __('Verified', 'user-verification') : __('Unverified', 'user-verification');
+            $uv_status                 = $user_activation_status == 1 ? __('Verified', 'wd_verification') : __('Unverified', 'wd_verification');
             $activation_key = get_user_meta($user_id, 'user_activation_key', true);
 
-            //var_dump($user_activation_status);
-
-
-?>
+        ?>
             <div class='uv_status status-<?php echo esc_attr($user_activation_status); ?>'>
                 <?php
 
                 if ($user_activation_status === '1') {
-                    echo __('Verified', 'user-verification');
+                    echo __('Verified', 'wd-verification');
                 }
 
                 if ($user_activation_status === '0') {
-                    echo __('Unverified', 'user-verification');
+                    echo __('Unverified', 'wd-verification');
                 }
 
-                if ($user_activation_status === '') {
-                    echo __('Old User', 'user-verification');
-                }
+                // if ($user_activation_status === '') {
+                //     echo __('Old User', 'wd-verification');
+                // }
 
 
 
@@ -106,10 +92,10 @@ class WD_Users_Columns
                 ?>
 
                     <span class="mark_as_verified">
-                        <a href="<?php echo esc_url_raw($mark_as_verified_url); ?>"><?php echo __('Mark as Verified', 'user-verification'); ?></a>
+                        <a href="<?php echo esc_url_raw($mark_as_verified_url); ?>"><?php echo __('Mark as Verified', 'wd-verification'); ?></a>
                     </span> |
                     <span class="resend_verification">
-                        <a href="<?php echo esc_url_raw($resend_verification_url); ?>"><?php echo __('Resend verification', 'user-verification'); ?></a>
+                        <a href="<?php echo esc_url_raw($resend_verification_url); ?>"><?php echo __('Resend verification', 'wd-verification'); ?></a>
                     </span>
                 <?php
 
@@ -129,7 +115,7 @@ class WD_Users_Columns
 
                 ?>
                     <span class="mark_as_unverified">
-                        <a href="<?php echo esc_url_raw($mark_as_unverified_url); ?>"><?php echo __('Mark as unverified', 'user-verification'); ?></a>
+                        <a href="<?php echo esc_url_raw($mark_as_unverified_url); ?>"><?php echo __('Mark as unverified', 'wd-verification'); ?></a>
                     </span>
                 <?php
                 }

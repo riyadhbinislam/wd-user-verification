@@ -11,13 +11,17 @@ Class WD_Setting_Tabs {
 
 public function __construct() {
     add_action('admin_menu', [$this, 'admin_menu_init']);
+    add_action('user_verification_settings_save', [$this, 'user_verification_settings_save']);
 
 }
+
+// Create User Verification Setting Page as SubMenu Under Users Menu
 
 public function admin_menu_init(){
     add_submenu_page('users.php', __('WD User Verification', 'user-verification'), __('WD User Verification', 'user-verification'), 'manage_options', 'user_verification', array($this, 'settings'));
-    //add_submenu_page('users.php', __('User Verification dashboard', 'user-verification'), __('User Verification', 'user-verification'), 'manage_options', 'user_verification_dashboard', array($this, 'dashboard'));
 }
+
+// Include Setting Page Template
 
 public function settings(){
     include(WD_USER_VERIFICATION_PATH . 'includes/menu/settings.php');
@@ -172,7 +176,7 @@ function generate_field($option){
 
     elseif (isset($option['type']) && $option['type'] === 'option_group')                   $this->field_option_group($option);
     elseif (isset($option['type']) && $option['type'] === 'option_group_accordion')         $this->field_option_group_accordion($option);
-    // elseif (isset($option['type']) && $option['type'] === 'wp_editor')                      $this->field_wp_editor($option);
+    elseif (isset($option['type']) && $option['type'] === 'wp_editor')                      $this->field_wp_editor($option);
     elseif (isset($option['type']) && $option['type'] === 'textarea_editor')                $this->field_textarea_editor($option);
 
 
@@ -233,8 +237,7 @@ public function field_wp_editor($option)
     echo (sprintf($field_template, $title, $input_html, $details));
 }
 
-public function field_custom_html($option)
-{
+public function field_custom_html($option){
 
     $id             = isset($option['id']) ? $option['id'] : "";
     $css_id             = isset($option['css_id']) ? $option['css_id'] : $id;
@@ -605,10 +608,6 @@ public function field_select($option)
 
     $title            = isset($option['title']) ? $option['title'] : "";
     $details             = isset($option['details']) ? $option['details'] : "";
-
-    if ($is_pro == true) {
-        $details = '<span class="pro-feature">' . $pro_text . '</span> ' . $details;
-    }
 
 
     if ($multiple) {
@@ -1264,6 +1263,29 @@ public function field_colorpicker($option)
     echo (sprintf($field_template, $title, $input_html, $details));
 }
 
+// Sanitize Setting Fields
+
+public function user_verification_recursive_sanitize_arr($array)
+    {
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                $value = $this->user_verification_recursive_sanitize_arr($value);
+            } else {
+                if ($key == 'url') {
+                    $value = esc_url_raw($value);
+                } else {
+                    $value = wp_kses_post($value);
+                }
+            }
+        }
+        return $array;
+    }
+
+// Setting Tab Save
+public function user_verification_settings_save(){
+    $user_verification_settings = isset($_POST['user_verification_settings']) ?  $this->user_verification_recursive_sanitize_arr($_POST['user_verification_settings']) : array();
+    update_option('user_verification_settings', $user_verification_settings);
+}
 
 
 

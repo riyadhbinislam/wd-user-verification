@@ -28,6 +28,7 @@ if (!defined('ABSPATH')) {
 
         <?php
 
+// Enable email verification
 
         $args = array(
             'id'        => 'enable',
@@ -42,6 +43,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Choose verification page
 
         $args = array(
             'id'        => 'verification_page_id',
@@ -57,6 +59,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Redirect after verification
 
         $args = array(
             'id'        => 'redirect_after_verification',
@@ -72,6 +75,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Automatically login after verification
 
         $args = array(
             'id'        => 'login_after_verification',
@@ -87,6 +91,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Required verification on email change?
 
         $args = array(
             'id'        => 'email_update_reverify',
@@ -102,6 +107,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Exclude user role
 
         $args = array(
             'id'        => 'exclude_user_roles',
@@ -119,13 +125,12 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
-
-
-
         ?>
 
     </div>
 
+
+<!-- Error messages / Customize error messages. -->
 
     <div class="section">
         <div class="section-title"><?php echo __('Error messages', 'user-verification'); ?></div>
@@ -157,7 +162,7 @@ if (!defined('ABSPATH')) {
 
 
 
-
+// Invalid activation key
 
         $args = array(
             'id'        => 'invalid_key',
@@ -172,6 +177,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Activation key has sent
 
         $args = array(
             'id'        => 'activation_sent',
@@ -186,6 +192,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Verify email address
 
         $args = array(
             'id'        => 'verify_email',
@@ -200,11 +207,12 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Registration success message
 
 
         $args = array(
             'id'        => 'registration_success',
-            'parent'        => 'user_verification_settings[messages]',
+                    'parent'        => 'user_verification_settings[messages]',
             'title'        => __('Registration success message', 'user-verification'),
             'details'    => __('User will get this message as soon as registered on your website', 'user-verification'),
             'type'        => 'textarea',
@@ -216,6 +224,7 @@ if (!defined('ABSPATH')) {
         $settings_tabs_field->generate_field($args);
 
 
+// Verification successful
 
         $args = array(
             'id'        => 'verification_success',
@@ -230,6 +239,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Verification fail
 
         $args = array(
             'id'        => 'verification_fail',
@@ -243,6 +253,8 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Please wait text
+
         $args = array(
             'id'        => 'please_wait',
             'parent'        => 'user_verification_settings[messages]',
@@ -254,6 +266,8 @@ if (!defined('ABSPATH')) {
         );
 
         $settings_tabs_field->generate_field($args);
+// Mail instruction text
+
 
         $args = array(
             'id'        => 'mail_instruction',
@@ -267,6 +281,8 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Redirect after verify text
+
         $args = array(
             'id'        => 'redirect_after_verify',
             'parent'        => 'user_verification_settings[messages]',
@@ -279,6 +295,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Not redirect text
 
         $args = array(
             'id'        => 'not_redirect',
@@ -292,6 +309,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// Popup title checking verification
 
         $args = array(
             'id'        => 'title_checking_verification',
@@ -304,6 +322,8 @@ if (!defined('ABSPATH')) {
         );
 
         $settings_tabs_field->generate_field($args);
+
+// Popup title sending verification
 
         $args = array(
             'id'        => 'title_sending_verification',
@@ -318,18 +338,20 @@ if (!defined('ABSPATH')) {
         $settings_tabs_field->generate_field($args);
 
 
-        $args = array(
-            'id'        => 'captcha_error',
-            'parent'        => 'user_verification_settings[messages]',
-            'title'        => __('Captcha error message', 'user-verification'),
-            'details'    => __('Show custom message when captcha error occurred.', 'user-verification'),
-            'type'        => 'textarea',
-            'value'        => $captcha_error,
-            'default'        => '',
+        // $args = array(
+        //     'id'        => 'captcha_error',
+        //     'parent'        => 'user_verification_settings[messages]',
+        //     'title'        => __('Captcha error message', 'user-verification'),
+        //     'details'    => __('Show custom message when captcha error occurred.', 'user-verification'),
+        //     'type'        => 'textarea',
+        //     'value'        => $captcha_error,
+        //     'default'        => '',
 
-        );
+        // );
 
-        $settings_tabs_field->generate_field($args);
+        // $settings_tabs_field->generate_field($args);
+
+// OTP sent success message
 
         $args = array(
             'id'        => 'otp_sent_success',
@@ -344,6 +366,7 @@ if (!defined('ABSPATH')) {
 
         $settings_tabs_field->generate_field($args);
 
+// OTP error message
 
         $args = array(
             'id'        => 'otp_sent_error',

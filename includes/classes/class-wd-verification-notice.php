@@ -1,147 +1,146 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
+if (!defined('ABSPATH')) exit; // if direct access
 
-class WD_User_Verification {
-    public function __construct() {
-        $this->init();
-        // $this->email = new WD_Email();
+class WD_Verification_Notices
+{
 
+    public function __construct()
+    {
+
+        add_action('admin_notices', array($this, 'mark_as_verified'));
+        add_action('admin_notices', array($this, 'mark_as_unverified'));
+        add_action('admin_notices', array($this, 'resend_verification'));
     }
 
-    public function init() {
-        $this->includes();
-        $this->init_hooks();
-    }
 
-    private function includes() {
-        $files = [
-            'includes/classes/class-wd-setting-tabs.php',
-            'includes/classes/class-wd-manage-verification.php',
-            'includes/classes/class-wd-verification-notice.php',
-            'includes/classes/class-wd-email.php',
-            'includes/classes/class-wd-email-otp.php',
-            // 'includes/classes/class-wd-woo-users.php',
-            'includes/classes/class-wd-user-profile.php',
-            'includes/classes/class-wd-column-users.php',
-        ];
 
-        foreach ($files as $file) {
-            $path = WD_USER_VERIFICATION_PATH . $file;
-            if (file_exists($path)) {
-                require_once $path;
-            } else {
-                error_log("WD User Verification: Failed to include $file");
-            }
+    public function mark_as_verified()
+    {
+
+        $output = array();
+
+        $str = isset($_SERVER['QUERY_STRING']) ? sanitize_text_field($_SERVER['QUERY_STRING']) : '';
+        if (empty($str)) return;
+
+        wp_parse_str($str, $output);
+        $class_user_verification_recursive_sanitize_arr = new WD_Setting_Tabs();
+        $output = $class_user_verification_recursive_sanitize_arr->user_verification_recursive_sanitize_arr($output);
+
+        $mark_as_verified = isset($output['mark_as_verified']) ? sanitize_text_field($output['mark_as_verified']) : '';
+
+        if (empty($mark_as_verified)) return;
+        if ($mark_as_verified != 'yes') return;
+
+        if (!current_user_can('manage_options')) return;
+
+        $user_id = isset($output['user_id']) ? sanitize_text_field($output['user_id']) : '';
+        $_wpnonce = isset($output['_wpnonce']) ? sanitize_text_field($output['_wpnonce']) : '';
+
+
+        if (wp_verify_nonce($_wpnonce, 'mark_as_verified')) {
+
+            $user_data = get_user_by('id', $user_id);
+            update_user_meta($user_id, 'user_activation_status', 1);
+
+            $display_name = isset($user_data->display_name) ? $user_data->display_name : $user_data->user_login;
+
+            ob_start();
+
+?>
+            <div class="updated notice is-dismissible">
+                <p>
+                    <?php
+                    echo sprintf(__('<strong>%s</strong> marked as verified', 'user-verification'), esc_html($display_name))
+                    ?>
+                </p>
+
+            </div>
+        <?php
+
+            echo ob_get_clean();
         }
     }
 
-    // Initialize Scripts and Styles for the plugin frontend and admin area on hooks
-    private function init_hooks() {
-         // Initialize scripts and styles
-         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
-         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
 
 
-         add_action('wp_ajax_user_verification_resend_form_submit', array($this,'user_verification_resend_form_submit'));
-         add_action('wp_ajax_nopriv_user_verification_resend_form_submit', array($this,'user_verification_resend_form_submit'));
+    public function mark_as_unverified()
+    {
 
+        $output = array();
+
+        $str = isset($_SERVER['QUERY_STRING']) ? sanitize_text_field($_SERVER['QUERY_STRING']) : '';
+        if (empty($str)) return;
+
+        wp_parse_str($str, $output);
+        $class_user_verification_recursive_sanitize_arr = new WD_Setting_Tabs();
+        $output = $class_user_verification_recursive_sanitize_arr->user_verification_recursive_sanitize_arr($output);
+
+        $mark_as_unverified = isset($output['mark_as_unverified']) ? sanitize_text_field($output['mark_as_unverified']) : '';
+
+        if (empty($mark_as_unverified)) return;
+        if ($mark_as_unverified != 'yes') return;
+
+        if (!current_user_can('manage_options')) return;
+
+        $user_id = isset($output['user_id']) ? sanitize_text_field($output['user_id']) : '';
+        $_wpnonce = isset($output['_wpnonce']) ? sanitize_text_field($output['_wpnonce']) : '';
+
+
+        if (wp_verify_nonce($_wpnonce, 'mark_as_unverified')) {
+
+            $user_data = get_user_by('id', $user_id);
+            update_user_meta($user_id, 'user_activation_status', 0);
+
+            $display_name = isset($user_data->display_name) ? $user_data->display_name : $user_data->user_login;
+
+            ob_start();
+
+        ?>
+            <div class="updated notice is-dismissible">
+                <p>
+                    <?php
+                    echo sprintf(__('<strong>%s</strong> marked as Unverified', 'user-verification'), esc_html($display_name))
+                    ?>
+                </p>
+
+            </div>
+        <?php
+
+            echo ob_get_clean();
+        }
     }
 
-    public function enqueue_frontend_assets() {
-        wp_enqueue_style(
-            'user_verification_style',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/css/style.css',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/css/style.css')
-        );
 
-        wp_enqueue_script(
-            'user_verification_scripts',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts.js'),
-            true
-        );
 
-        wp_enqueue_script(
-            'user_verification_scripts_login',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-login.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-login.js'),
-            true
-        );
-        wp_enqueue_script(
-            'user_verification_scripts_otp',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-otp.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-otp.js'),
-            true
-        );
+    public function resend_verification()
+    {
 
-    }
+        $output = array();
+        $str = isset($_SERVER['QUERY_STRING']) ? sanitize_text_field($_SERVER['QUERY_STRING']) : '';
 
-    public function enqueue_admin_assets($hook) {
-        $screen = get_current_screen();
-        wp_enqueue_style(
-            'user_verification_admin',
-            WD_USER_VERIFICATION_URL . 'assets/admin/css/style.css',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/admin/css/style.css')
-        );
-        wp_enqueue_style(
-            'user_verification_settings_tabs',
-            WD_USER_VERIFICATION_URL . 'assets/settings-tabs/setting-tabs.css',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/settings-tabs/setting-tabs.css')
-        );
+        if (empty($str)) return;
 
-        wp_enqueue_script(
-            'user_verification',
-            WD_USER_VERIFICATION_URL . 'assets/settings-tabs/setting-tabs.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/settings-tabs/setting-tabs.js'),
-            true
-        );
 
-    }
+        wp_parse_str($str, $output);
+        $class_user_verification_recursive_sanitize_arr = new WD_Setting_Tabs();
+        $output = $class_user_verification_recursive_sanitize_arr->user_verification_recursive_sanitize_arr($output);
 
-    public function user_verification_resend_form_submit(){
+        $resend_verification = isset($output['resend_verification']) ? sanitize_text_field($output['resend_verification']) : '';
 
-    $responses = [];
 
-    $formData = isset($_POST['formData']) ? $_POST['formData'] : '';
-    $params = array();
-    parse_str($formData, $params);
+        if (empty($resend_verification)) return;
+        if ($resend_verification != 'yes') return;
 
-    $_wpnonce = isset($params['_wpnonce']) ? sanitize_text_field($params['_wpnonce']) : '';
-    $email = isset($params['email']) ? sanitize_email($params['email']) : '';
+        if (!current_user_can('manage_options')) return;
+
+        $user_id = isset($output['user_id']) ? sanitize_text_field($output['user_id']) : '';
+        $_wpnonce = isset($output['_wpnonce']) ? sanitize_text_field($output['_wpnonce']) : '';
 
 
 
-    if (wp_verify_nonce($_wpnonce, 'nonce_resend_verification') && $params['resend_verification_hidden'] == 'Y') {
 
 
-        $user_verification_settings = get_option('user_verification_settings');
-        $verification_page_id = isset($user_verification_settings['email_verification']['verification_page_id']) ? $user_verification_settings['email_verification']['verification_page_id'] : '';
-        $activation_sent = !empty($user_verification_settings['messages']['activation_sent']) ? $user_verification_settings['messages']['activation_sent'] : __('Activation mail has sent', 'user-verification');
-
-
-        $user_data = get_user_by('email', $email);
-
-        if (!empty($user_data)) {
-
-            $user_id = $user_data->ID;
-
-
-            $user_activation_status = get_user_meta($user_id, 'user_activation_status', true);
-
-            if ($user_activation_status == 1) {
-                $response['message'] = __("User already verified.", "user-verification");
-                echo json_encode($response);
-                die();
-            }
+        if (wp_verify_nonce($_wpnonce, 'resend_verification')) {
 
 
 
@@ -150,7 +149,7 @@ class WD_User_Verification {
 
             if ($email_verification_enable != 'yes') return;
 
-            $class_user_verification_emails = new class_user_verification_emails();
+            $class_user_verification_emails = new WD_Email();
             $email_templates_data = $class_user_verification_emails->email_templates_data();
 
             $logo_id = isset($user_verification_settings['logo_id']) ? $user_verification_settings['logo_id'] : '';
@@ -172,6 +171,7 @@ class WD_User_Verification {
             $email_body = isset($email_templates_data['html']) ? $email_templates_data['html'] : '';
 
             $email_body = do_shortcode($email_body);
+
             if ($mail_wpautop == 'yes') {
                 $email_body = wpautop($email_body);
             }
@@ -183,8 +183,13 @@ class WD_User_Verification {
 
             $user_activation_key =  md5(uniqid('', true));
 
+
+
+
             update_user_meta($user_id, 'user_activation_key', $user_activation_key);
             update_user_meta($user_id, 'user_activation_status', 0);
+
+
 
             $user_data     = get_userdata($user_id);
 
@@ -205,6 +210,7 @@ class WD_User_Verification {
 
                 endforeach;
             }
+
 
 
 
@@ -260,37 +266,29 @@ class WD_User_Verification {
             $email_data['attachments'] = array();
 
 
-
             if ($enable == 'yes') {
                 $mail_status = $class_user_verification_emails->send_email($email_data);
             }
 
 
-            $response['message'] = $activation_sent;
-        } else {
-            $response['message'] = __("Sorry user doesn't exist.", "user-verification");
+            $display_name = isset($user_data->display_name) ? $user_data->display_name : $user_data->user_login;
+
+            ob_start();
+
+        ?>
+            <div class="updated notice is-dismissible">
+                <p>
+                    <?php
+                    echo sprintf(__('Verification mail resend to <strong>%s</strong>', 'user-verification'), esc_html($display_name))
+                    ?>
+                </p>
+
+            </div>
+<?php
+
+            echo ob_get_clean();
         }
-    } else {
-        $response['message'] = __("Error something went wrong", "user-verification");
     }
-
-    echo json_encode($response);
-    die();
 }
 
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
+new WD_Verification_Notices();
