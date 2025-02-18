@@ -6,7 +6,6 @@ jQuery(document).ready(function ($) {
 
 		$('.uv_popup_box_container').fadeOut();
 
-
 	})
 
 	$(document).on('submit', '#user-verification-resend', function (ev) {

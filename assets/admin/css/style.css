@@ -1,0 +1,33 @@
+#otp-login-form {
+    max-width: 320px;
+    margin: auto;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+#login_nav {
+    max-width: 320px;
+    width: 100%;
+    margin: 10px auto;
+}
+
+#login_nav_items a ,
+#login_backtoblog a {
+    text-decoration: none !important;
+}
+
+
+#otp-login-form .button {
+    float: right;
+}
+
+.login form .input, .login input[type=password], .login input[type=text] {
+    font-size: 14px;
+}
+
+#user_verification-message {
+    max-width: 370px;
+    width: 100%;
+    margin: 0 auto;
+}

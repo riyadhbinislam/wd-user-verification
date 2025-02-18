@@ -11,13 +11,6 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-//class-wd-user-verification.php
-//class-wd-setting-tabs.php
-//class-wd-email.php [Email verification, OTP verification, Custom email templates]
-//class-wd-woo-users.php
-//class-wd-wp-users.php
-//class-wd-tools.php [Bulk verification, Resend verification email, Delete verification data]
-
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -60,7 +53,7 @@ if (!defined('ABSPATH')) {
     }
 
 
-add_action('init', 'wd_user_verification_init', 0);
+    add_action('init', 'wd_user_verification_init', 0);
 
 
 function wd_user_verification_activate() {
@@ -82,7 +75,8 @@ function wd_user_verification_deactivate() {
     flush_rewrite_rules();
 }
 
+
+
 // Deactivation hook
 register_deactivation_hook(__FILE__, 'wd_user_verification_deactivate');
 
-//user-registration.local/wp-login.php?action=register

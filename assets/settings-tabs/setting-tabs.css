@@ -1,20 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
-
-
 /*General CSS*/
 
-.settings-tabs .float-right {
-    float: right;
-}
 
-.settings-tabs .float-left {
-    float: right;
-}
-
-.settings-tabs .float-none {
-    float: right;
-}
 
 
 .settings-tabs .loading {}
@@ -28,7 +16,6 @@
     color: #f00;
 }
 
-/* Collapsible */
 
 .settings-tabs .collapsible {
     margin-bottom: 2px;
@@ -47,8 +34,6 @@
 
 .settings-tabs .collapsible .content {
     display: none;
-    padding: 10px;
-    background: #f1f1f1;
 }
 
 
@@ -57,54 +42,10 @@
 }
 
 
-
-
-
-
-
-
-.settings-tabs {
-    /* background: #fff; */
-    margin: 25px 0;
-}
-
 .settings-tabs.vertical {
-    /* position: relative; */
+    position: relative;
 }
 
-.settings-tabs .tab-navs {
-    margin: 0;
-    padding: 0;
-    top: 32px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.settings-tabs .tab-nav {
-    width: 250px;
-    padding: 12px 10px;
-    background: #f1f1f1;
-    margin: 0;
-    cursor: pointer;
-    font-size: 16px;
-    box-sizing: border-box;
-    background-color: #2271b1 !important;!i;!;!i;!;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-.settings-tabs .tab-nav.active {
-    background: #2271b1 !important;
-    opacity: 0.8;
-}
-
-.settings-tabs .tab-nav .pro-feature {
-    float: right;
-}
 
 .tab-nav i {
     font-size: 16px;
@@ -117,33 +58,94 @@
 }
 
 .settings-tabs .tab-content {
-    /* margin-left: 250px; */
-    padding: 0px 0;
-    background: #f1f1f159;
     display: none;
+    padding: 10px;
 }
 
 .settings-tabs .tab-content.active {
     display: block;
-}
-
-.settings-tabs.has-right-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-.settings-tabs.has-right-panel .tab-content {
-    /* margin-right: 280px; */
-}
-
-
-.settings-tabs-right-panel {
-    width: 250px;
-    float: right;
-    padding: 15px;
-    border-left: 1px solid #ddd;
+    max-width: 960px;
+    margin: 40px 20px;
+    border: 1px solid #c3c4ce;
     background: #fff;
+    padding: 15px;
 }
+
+.settings-tabs .tab-navs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    border-bottom: 1px solid #c3c4c7;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.settings-tabs .tab-nav {
+    padding: 5px 10px;
+    border: 1px solid #c3c4c7;
+    background-color: #dcdcdc;
+    color: #50575e;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    line-height: 1.7;
+    margin: 0;
+    border-bottom: none !important;
+    cursor: pointer;
+}
+
+
+.tab-nav.active {
+    background-color: #f0f0f1;
+    color: #000 !important;
+    border-bottom: none;
+    margin-bottom: -1px;
+}
+
+.settings-tabs .setting-field .field-input {
+    max-width: 450px;
+    width: 100%;
+    margin-left: 50px
+
+}
+
+.settings-tabs .setting-field .field-lable {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #3c434a;
+    font-weight: 600;
+    word-break: break-word;
+    max-width: 350px;
+    width: 100%;
+
+}
+
+.settings-tabs .setting-field .description {
+    font-size: 13px;
+    color: #9a9a9a;
+    line-height: 1.7;
+    word-break: break-word;
+    margin: 8px 0;
+}
+
+.tab-content.active .section {
+    border-bottom: 1px;!;!importan;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom-style: dashed;
+    border-bottom-color: #c3c4cf;
+}
+
+.tab-content .section-title {
+    font-size: 26px;
+    line-height: 1.7;
+}
+
+.tab-content .section-description {
+    color: #9a9a9a;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
 
 .settings-tabs-right-panel .right-panel-content {
     display: none;
@@ -154,73 +156,12 @@
 }
 
 
-/*horizontal*/
-
-.settings-tabs.horizontal {}
-
-.settings-tabs.horizontal .tab-navs {
-    float: none;
-    position: relative;
-    top: 0;
-    padding: 0 20px;
-}
-
-.settings-tabs.horizontal .tab-navs .tab-nav {
-    display: inline-block;
-    float: left;
-    width: auto;
-    border-right: 1px solid #ddd;
-}
-
-.settings-tabs.horizontal .tab-navs .tab-nav:last-child {
-    border-right: 1px solid rgba(0, 0, 0, 0);
-}
-
-
-.settings-tabs.horizontal .tab-content {
-    margin-left: 0;
-    /*clear: both;*/
-    padding: 0 20px;
-}
-
-
-
-
-
-
-.radio-img .name {
-
-    padding: 5px;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-}
-
-
-
-
-.radio-img label {
-    display: inline-block;
-    vertical-align: top;
-    margin: 5px;
-    padding: 5px;
-    background: #eee;
-    position: relative;
-    border-radius: 5px;
-    overflow: hidden;
-    padding-bottom: 30px;
-}
-
 .radio-img label.active .name {
     background: #1976ec;
 
 }
 
-
 .radio-img label.active {
-    background: #1976ec;
     color: #fff;
     font-weight: bold;
 }
@@ -249,7 +190,7 @@
     background: hsl(200, 7%, 42%);
     position: absolute;
     top: 2px;
-    /* transform: translate(0%,-50%); */
+    transform: translate(0%,-50%);
     padding: 3px 14px;
     text-decoration: none;
     font-size: 14px;
@@ -272,33 +213,6 @@
 
 
 
-
-
-.settings-tabs .section {
-    margin: 0;
-    padding: 15px 0;
-}
-
-.settings-tabs .section-title {
-    padding: 0 15px;
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.settings-tabs .section-description {
-    padding: 0 15px;
-    margin-bottom: 25px;
-    font-size: 16px;
-
-}
-
-
-
-.settings-tabs .setting-field {
-    border-bottom: 1px solid #eee;
-    padding: 15px;
-}
-
 .settings-tabs input[type="text"],
 .settings-tabs input[type="number"],
 .settings-tabs .range-slider,
@@ -306,10 +220,12 @@
 .settings-tabs textarea,
 .settings-tabs select,
 .settings-tabs input[type="range"] {
-    border: 2px solid #2563eb69;
-    border-radius: 0;
+    border: 1px solid #8c8f94;
+    border-radius: 3px;
     padding: 5px 10px;
-
+    background-color: #f1f1f1 !important;
+    max-width: 400px;
+    width: 100%;
 }
 
 .settings-tabs input[type=radio],
@@ -345,59 +261,6 @@
 
 
 
-.settings-tabs .setting-field .field-lable {
-    width: 270px;
-    float: left;
-    font-size: 18px;
-    word-break: break-word;
-    font-weight: 600;
-}
-
-.settings-tabs .setting-field .field-input {
-    margin-left: 270px;
-}
-
-.settings-tabs .setting-field .description {
-    word-break: break-word;
-    font-size: 16px;
-    margin: 10px 0;
-
-}
-
-.settings-tabs .setting-field .setting-field {
-    padding: 0 15px 15px 0px;
-}
-
-.settings-tabs .setting-field .setting-field .field-lable {
-
-    float: none;
-}
-
-.settings-tabs .setting-field .setting-field .field-input {
-    margin-left: 0px;
-}
-
-
-.settings-tabs .expandable .setting-field {
-    padding: 10px 0;
-    margin: 10px 0;
-}
-
-.settings-tabs .expandable .setting-field .field-lable {
-    float: left;
-}
-
-.settings-tabs .expandable .setting-field .field-input {
-    margin-left: 270px;
-}
-
-.settings-tabs .expandable .setting-field .setting-field .field-lable {
-    float: none;
-}
-
-.settings-tabs .expandable .setting-field .setting-field .field-input {
-    margin-left: 0px;
-}
 
 .settings-tabs .field-error {
     background: #ff3f3f1a;
@@ -407,7 +270,6 @@
     color: #c11f1f;
 }
 
-/*field-repeatable-wrapper*/
 
 .settings-tabs .field-media-wrapper .media-upload,
 .field-media-wrapper .clear {
@@ -427,8 +289,6 @@
 .field-repeatable-wrapper .field-list {
     margin-top: 18px;
 }
-
-.field-repeatable-wrapper .button {}
 
 .field-repeatable-wrapper .sort {
     background: rgba(87, 99, 117, 0.48) none repeat scroll 0 0;
@@ -473,86 +333,6 @@
     border-radius: 3px;
     border: 1px solid #999;
 }
-
-
-/*input*/
-
-.settings-tabs input[type="text"],
-.settings-tabs input[type="number"],
-.settings-tabs .range-slider,
-.settings-tabs input[type="email"],
-.settings-tabs textarea,
-.settings-tabs select,
-.settings-tabs input[type="range"] {
-    width: 360px;
-    background: #ffffff;
-}
-
-
-@media (max-width: 1170px) {
-
-    .settings-tabs input[type="text"],
-    .settings-tabs input[type="email"],
-    .settings-tabs textarea,
-    .settings-tabs select,
-    .settings-tabs input[type="range"],
-    .settings-tabs .select2 {
-        width: 100% !important;
-
-    }
-}
-
-
-@media (max-width: 1440px) {
-
-    .settings-tabs .setting-field .field-lable {
-        width: auto;
-        float: none;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    .settings-tabs .setting-field .field-input {
-        margin-left: 0px;
-    }
-
-    .settings-tabs .setting-field .description {}
-
-    /*.settings-tabs-right-panel {*/
-    /*    width: 95%;*/
-    /*    float: none;*/
-    /*    padding: 15px;*/
-    /*    border-left: 1px solid #ddd;*/
-    /*}*/
-
-
-    /*.settings-tabs.has-right-panel .tab-content {*/
-    /*    margin-right: 0px;*/
-    /*}*/
-
-}
-
-@media (max-width: 1700px) {
-
-    .settings-tabs .setting-field .setting-field .field-lable {
-        width: auto;
-        float: none;
-        font-size: 14px;
-    }
-
-    .settings-tabs .setting-field .setting-field .field-input {
-        margin-left: 0px;
-    }
-
-
-}
-
-
-
-
-/*expandable*/
-
-
 
 .settings-tabs .expandable .item {
     margin: 1px 0;
@@ -634,7 +414,6 @@
 }
 
 .settings-tabs .expandable .item .header-text {
-
     width: 90%;
 }
 
@@ -659,25 +438,6 @@
 
 
 
-
-.settings-tabs .pro-feature {
-    background: #ffd87f;
-    padding: 0 5px;
-}
-
-
-
-/*3rd Party*/
-
-.settings-tabs .field-input .CodeMirror {
-    background: #f1f1f1;
-}
-
-
-/*.accordion*/
-
-.settings-tabs .accordion {}
-
 .settings-tabs .accordion .accordion-title {
     padding: 10px;
     background: #f1f1f1;
@@ -692,82 +452,15 @@
     background: #f5f4f4a6;
 }
 
-
-
-@media only screen and (min-width: 1024px) {}
-
-@media only screen and (min-width: 768px) and (max-width: 1023px) {}
-
-@media only screen and (min-width: 0px) and (max-width: 767px) {
-
-
-
-
-    .settings-tabs .tab-navs {
-        float: none;
-        position: relative;
-        top: 0;
-        padding: 0 20px;
-    }
-
-    .settings-tabs .tab-navs .tab-nav {
-        display: inline-block;
-        float: left;
-        width: auto;
-        border-right: 1px solid #ddd;
-        padding: 10px 20px;
-    }
-
-    .settings-tabs .tab-navs .tab-nav:last-child {
-        border-right: 1px solid rgba(0, 0, 0, 0);
-    }
-
-
-    .settings-tabs .tab-content {
-        margin-left: 0;
-        /*clear: both;*/
-        padding: 0 20px;
-        clear: both;
-    }
-
-
-    .settings-tabs-right-panel {
-        width: 100%;
-        float: none;
-        padding: 15px;
-        border-left: none;
-        background: #fff;
-        clear: both;
-    }
-
-    .settings-tabs.has-right-panel .tab-content {
-        margin-right: 0px;
-    }
-
-    input[type=checkbox],
-    input[type=radio] {
-        margin: 6px 7px 0 0;
-    }
-
-
-
-
-.tab-navs {
+.tab-content .section .setting-field {
     display: flex;
-    !i;!;
-    justify-content: center;
+    gap: 15px;
     align-items: center;
-    text-align: center;
-    gap: 30px 15px;
-    margin-bottom: 50px !important;!i;!;
+    padding: 15px;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 
-.tab-content {
-    background-color: #fff !important;!i;!;
-}
-
-
-
-
+.tab-content .section .setting-field:last-child {
+    border-bottom: none !important;
 }

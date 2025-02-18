@@ -23,8 +23,8 @@ if (!defined('ABSPATH')) {
 
     ?>
     <div class="section">
-        <div class="section-title"><?php echo __('Email verification', 'user-verification'); ?></div>
-        <p class="description section-description"><?php echo __('Customize options for email verification.', 'user-verification'); ?></p>
+        <div class="section-title"><?php echo __('The verification process of email', 'user-verification'); ?></div>
+        <p class="description section-description"><?php echo __('Personalised your email verification options.', 'user-verification'); ?></p>
 
         <?php
 
@@ -133,8 +133,8 @@ if (!defined('ABSPATH')) {
 <!-- Error messages / Customize error messages. -->
 
     <div class="section">
-        <div class="section-title"><?php echo __('Error messages', 'user-verification'); ?></div>
-        <p class="description section-description"><?php echo __('Customize error messages.', 'user-verification'); ?></p>
+        <div class="section-title"><?php echo __('Error Messages', 'user-verification'); ?></div>
+        <p class="description section-description"><?php echo __('Personalise error messages.', 'user-verification'); ?></p>
 
         <?php
 

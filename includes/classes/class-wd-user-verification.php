@@ -47,9 +47,43 @@ class WD_User_Verification {
          add_action('wp_ajax_user_verification_resend_form_submit', array($this,'user_verification_resend_form_submit'));
          add_action('wp_ajax_nopriv_user_verification_resend_form_submit', array($this,'user_verification_resend_form_submit'));
 
+         add_action('wp_enqueue_scripts', array($this, 'enqueue_jquery_if_not_loaded'));
+
+        add_action('login_enqueue_scripts', array($this,'enqueue_login_scripts'));
+
     }
 
+    public function is_login_page() {
+        global $pagenow;
+
+        // Check for default WordPress login and registration pages
+        if (in_array($pagenow, array('wp-login.php', 'wp-register.php'))) {
+            return true;
+        }
+
+        // Check if the request URI contains 'wp-login.php' (for custom login redirects)
+        if (strpos($_SERVER['REQUEST_URI'], 'wp-login.php') !== false) {
+            return true;
+        }
+
+        // If using a custom login page, check for it explicitly
+        if (function_exists('is_page') && is_page('custom-login')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function enqueue_jquery_if_not_loaded() {
+        if (!wp_script_is('jquery', 'enqueued')) {
+            wp_enqueue_script('jquery');
+        }
+    }
+
+
     public function enqueue_frontend_assets() {
+        // error_log("enqueue_frontend_assets() is being called.");
+
         wp_enqueue_style(
             'user_verification_style',
             WD_USER_VERIFICATION_URL . 'assets/frontend/css/style.css',
@@ -57,30 +91,11 @@ class WD_User_Verification {
             filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/css/style.css')
         );
 
-        wp_enqueue_script(
-            'user_verification_scripts',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts.js'),
-            true
-        );
 
-        wp_enqueue_script(
-            'user_verification_scripts_login',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-login.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-login.js'),
-            true
-        );
-        wp_enqueue_script(
-            'user_verification_scripts_otp',
-            WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-otp.js',
-            array(),
-            filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-otp.js'),
-            true
-        );
 
     }
+
+
 
     public function enqueue_admin_assets($hook) {
         $screen = get_current_screen();
@@ -105,7 +120,54 @@ class WD_User_Verification {
             true
         );
 
+        wp_enqueue_style(
+            'font-awesome-5',
+            WD_USER_VERIFICATION_URL . 'assets/global/css/font-awesome-5.css',
+            array(),
+            filemtime(WD_USER_VERIFICATION_PATH . 'assets/global/css/font-awesome-5.css')
+        );
     }
+
+     public function enqueue_login_scripts() {
+        if (isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php') {
+            wp_enqueue_script(
+                'user_verification_scripts',
+                WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts.js',
+                array('jquery'),
+                filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts.js'),
+                true
+            );
+
+            wp_enqueue_script(
+                'user_verification_scripts_otp',
+                WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-otp.js',
+                array('jquery'),
+                filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-otp.js'),
+                true
+            );
+
+            wp_enqueue_script(
+                'user_verification_scripts_login',
+                WD_USER_VERIFICATION_URL . 'assets/frontend/js/scripts-login.js',
+                array('jquery'),
+                filemtime(WD_USER_VERIFICATION_PATH . 'assets/frontend/js/scripts-login.js'),
+                true
+            );
+
+            wp_localize_script('user_verification_scripts_login', 'user_verification_scripts_login', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce'    => wp_create_nonce('user_verification_otp_nonce') // Generate the nonce
+            ));
+
+            wp_enqueue_style(
+                'user_verification_admin',
+                WD_USER_VERIFICATION_URL . 'assets/admin/css/style.css',
+                array(),
+                filemtime(WD_USER_VERIFICATION_PATH . 'assets/admin/css/style.css')
+            );
+        }
+    }
+
 
     public function user_verification_resend_form_submit(){
 
@@ -276,7 +338,8 @@ class WD_User_Verification {
 
     echo json_encode($response);
     die();
-}
+    }
+
 
 
 

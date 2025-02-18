@@ -27,7 +27,7 @@ function user_verification_settings_content_email_templates(){
 ?>
     <div class="section">
         <div class="section-title"><?php echo __('Email settings', 'user-verification'); ?></div>
-        <p class="description section-description"><?php echo __('Customize email settings.', 'user-verification'); ?></p>
+        <p class="description section-description"><?php echo __('Configure your email settings.', 'user-verification'); ?></p>
 
         <?php
 

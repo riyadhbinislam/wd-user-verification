@@ -35,7 +35,7 @@ function user_verification_settings_content_email_otp() {
 
 <div class="section">
     <div class="section-title"><?php echo __('Email OTP', 'user-verification'); ?></div>
-    <p class="description section-description"><?php echo __('Customize options for email OTP.', 'user-verification'); ?></p>
+    <p class="description section-description"><?php echo __('Personalised options for email OTP.', 'user-verification'); ?></p>
 
     <?php
 

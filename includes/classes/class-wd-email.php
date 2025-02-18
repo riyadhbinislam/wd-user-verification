@@ -34,6 +34,8 @@ class WD_Email{
 
 
         $headers = array();
+
+        $headers[] = "Content-Type: text/html; charset=UTF-8";
         $headers[] = "From: " . $email_from_name . " <" . $email_from . ">";
 
         if (!empty($reply_to)) {
@@ -54,13 +56,7 @@ class WD_Email{
         //error_log(serialize($headers));
 
 
-
-
-
-
         $status = wp_mail($email_to, $subject, $email_body, $headers, $attachments);
-
-
 
 
         return $status;
@@ -210,6 +206,11 @@ class WD_Email{
 
         return $parameters;
     }
+
+
+// client id -  425119952246-r5am04483je7ros5inq13mjopchjggq7.apps.googleusercontent.com
+// client secret -  425119952246-r5am04483je7ros5inq13mjopchjggq7.apps.googleusercontent.com
+
 
 }
 
